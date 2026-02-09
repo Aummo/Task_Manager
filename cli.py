@@ -1,63 +1,59 @@
-import click 
-from manger import Taskmanager
+from pyx.graph.axis.texter import default
 
+from infrastructure.InMemoryTaskRepository import InMemoryTaskRepository
+from services.TaskService import TaskService
 
+repository = InMemoryTaskRepository()
+service = TaskService(repository)
+
+import click
 
 @click.group()
 def cli():
-    """Simple Task Manager CLI"""
+    '''Task Manager CLI'''
     pass
+
 
 @cli.command()
 @click.argument('title')
-@click.option('--desc', '-d', default='', help='Task description')
-def add(title, desc):
-    """Add a new task"""
-    manager = Taskmanager()
-    manager.add_task(title, desc)
-
-@cli.command()
-@click.argument('task_id', type=int)
-def delete(task_id):
-    """Delete a task by ID"""
-    manager = Taskmanager()
-    manager.del_task(task_id)
+@click.option('--desc','-d', default='',help='task description')
+def add(title,desc):
+    try:
+        task = service.add_task(title, desc)
+        click.echo(task.summary())
+    except ValueError as e:
+        click.echo(str(e))
 
 @cli.command(name='list')
 def list_tasks():
-    """List all tasks"""
-    manager = Taskmanager()
-    manager.list_task()
+    tasks = service.list_tasks()
+    if not tasks:
+        click.echo('No tasks found')
+        return
+    for task in tasks:
+        click.echo(task.summary())
+
 
 @cli.command()
-@click.argument('task_id', type=int)
-@click.argument('new_title')
-@click.option('--desc', '-d', default=None, help='New description')
-def update(task_id, new_title, desc):
-    """Update a task"""
-    manager = Taskmanager()
-    task = manager.find_task(task_id)
-
-    if task:
-        task.title = new_title
-        if desc is not None:
-            task.desc = desc
-        print(f"Task updated: {task}")
+@click.argument('task_id')
+def delete(task_id):
+    removed = service.delete_task(task_id)
+    if removed:
+        click.echo('Task deleted')
     else:
-        print(f"Task with ID {task_id} not found")
+        click.echo('task not found!')
+
 
 @cli.command()
 def clear():
-    """Clear all tasks"""
-    manager = Taskmanager()
-    confirm = input("Are you sure you want to delete all tasks? (y/n): ")
-    if confirm.lower() == 'y':
-        manager.tasks.clear()
-        manager.next_id = 1  # reset ID counter
-        print("All tasks cleared")
+    confirm = click.confirm('Are you sure you want to delete all tasks?')
+    if confirm:
+        service.clear_tasks()
+        click.echo('all tasks cleared')
     else:
-        print("Clear cancelled")
+        click.echo('cancelled')
 
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     cli()
