@@ -1,5 +1,3 @@
-from pyx.graph.axis.texter import default
-
 from infrastructure.InMemoryTaskRepository import InMemoryTaskRepository
 from services.TaskService import TaskService
 

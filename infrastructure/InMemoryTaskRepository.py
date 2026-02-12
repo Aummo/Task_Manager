@@ -1,6 +1,6 @@
 from typing import Dict, List, Optional
-from domain.task import Task
-from repositories.task_repository import TaskRepository
+from ..domain.task import Task
+from ..repositories.task_repository import TaskRepository
 
 class InMemoryTaskRepository(TaskRepository):
 

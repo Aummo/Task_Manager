@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
-from domain.task import Task
+from ..domain.task import Task
 
 class TaskRepository(ABC):
 
@@ -17,7 +17,7 @@ class TaskRepository(ABC):
         pass
 
     @abstractmethod
-    def remove(self, task_id: int) -> bool:
+    def remove(self, task_id: str) -> bool:
         pass
 
     @abstractmethod

@@ -12,7 +12,7 @@ class Task:
         return self._id
 
     def rename(self,new_title:str):
-        if new_title or not new_title.strip():
+        if not new_title or not new_title.strip():
             raise ValueError('Task title cannot be empty')
         self._title = new_title
 
