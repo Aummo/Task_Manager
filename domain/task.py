@@ -1,9 +1,9 @@
 class Task:
-    def __init__(self,tas_id:str,title:str,desc:str=''):
+    def __init__(self,task_id:str,title:str,desc:str=''):
 
         if  not title or not title.strip():
             raise ValueError('Task title cannot be empty')
-        self._id = tas_id
+        self._id = task_id
         self._title = title
         self._desc = desc
 
@@ -21,4 +21,3 @@ class Task:
 
     def summary(self) -> str:
         return f'{self._id},{self._title} - {self._desc}'
-

@@ -1,8 +1,9 @@
-# from Task_Manager.infrastructure.InMemoryTaskRepository import InMemoryTaskRepository
-from .infrastructure.InMemoryTaskRepository import InMemoryTaskRepository
 from .services.TaskService import TaskService
+from .infrastructure.SQLiteTaskRepository import SQLiteTaskRepository
 
-repository = InMemoryTaskRepository()
+repository = SQLiteTaskRepository()
+
+
 service = TaskService(repository)
 
 import click
