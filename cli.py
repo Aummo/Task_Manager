@@ -1,5 +1,6 @@
-from infrastructure.InMemoryTaskRepository import InMemoryTaskRepository
-from services.TaskService import TaskService
+# from Task_Manager.infrastructure.InMemoryTaskRepository import InMemoryTaskRepository
+from .infrastructure.InMemoryTaskRepository import InMemoryTaskRepository
+from .services.TaskService import TaskService
 
 repository = InMemoryTaskRepository()
 service = TaskService(repository)
