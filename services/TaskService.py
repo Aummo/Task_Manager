@@ -1,5 +1,4 @@
 import uuid
-
 from ..domain.task import Task
 
 
@@ -12,9 +11,9 @@ class TaskService:
         return str(uuid.uuid4())
 
 
-    def add_task(self,title:str,desc:str='') -> Task:
+    def add_task(self,title:str, user_id:str, desc:str='') -> Task:
         task_id = self._generate_id()
-        task = Task(task_id, title, desc)
+        task = Task(task_id, title, user_id, desc)
         self.repository.add(task)
         return task
 

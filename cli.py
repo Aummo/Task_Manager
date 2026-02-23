@@ -1,8 +1,6 @@
 from .services.TaskService import TaskService
 from .infrastructure.SQLiteTaskRepository import SQLiteTaskRepository
-
 repository = SQLiteTaskRepository()
-
 
 service = TaskService(repository)
 
@@ -10,19 +8,21 @@ import click
 
 @click.group()
 def cli():
-    '''Task Manager CLI'''
+    """Task Manager CLI"""
     pass
 
 
 @cli.command()
 @click.argument('title')
 @click.option('--desc','-d', default='',help='task description')
-def add(title,desc):
+@click.option('--user_id', '-u', help='what is your user id?')
+def add(title,desc,user_id):
     try:
-        task = service.add_task(title, desc)
+        task = service.add_task(title, desc, user_id)
         click.echo(task.summary())
     except ValueError as e:
         click.echo(str(e))
+
 
 @cli.command(name='list')
 def list_tasks():
